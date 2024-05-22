@@ -2,16 +2,43 @@ package server
 
 import (
 	"fmt"
-
-	"github.com/rocket-pool/node-manager-core/beacon"
+	"net/http"
+	"strconv"
 )
 
-func (s *BeaconMockServer) SlashValidator(validator *beacon.ValidatorStatus, penaltyGwei uint64) error {
-	if validator.Status != beacon.ValidatorState_ActiveOngoing && validator.Status != beacon.ValidatorState_ActiveExiting {
-		return fmt.Errorf("validator with pubkey %s is not in a slashable state", validator.Pubkey.HexWithPrefix())
+func (s *BeaconMockServer) slash(w http.ResponseWriter, r *http.Request) {
+	// Get the request vars
+	args := s.processApiRequest(w, r, nil)
+	id, exists := args["id"]
+	if !exists {
+		handleInputError(s.logger, w, fmt.Errorf("missing validator ID"))
+		return
 	}
-	validator.Slashed = true
-	validator.Balance -= penaltyGwei
-	validator.Status = beacon.ValidatorState_ActiveSlashed
-	return nil
+	penaltyString, exists := args["penalty"]
+	if !exists {
+		handleInputError(s.logger, w, fmt.Errorf("missing penalty"))
+		return
+	}
+
+	// Input validation
+	penalty, err := strconv.ParseUint(penaltyString[0], 10, 64)
+	if err != nil {
+		handleInputError(s.logger, w, fmt.Errorf("invalid penalty [%s]: %w", penaltyString[0], err))
+		return
+	}
+
+	// Get the validator
+	validator, err := s.manager.GetValidator(id[0])
+	if err != nil {
+		handleInputError(s.logger, w, err)
+		return
+	}
+
+	// Slash the validator
+	err = validator.Slash(penalty)
+	if err != nil {
+		handleInputError(s.logger, w, err)
+		return
+	}
+	handleSuccess(w, s.logger, nil)
 }

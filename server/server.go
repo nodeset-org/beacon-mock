@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -11,6 +10,8 @@ import (
 	"net/http"
 	"net/url"
 	"sync"
+
+	"github.com/goccy/go-json"
 
 	"github.com/gorilla/mux"
 	"github.com/nodeset-org/beacon-mock/api"
@@ -117,6 +118,14 @@ func (s *BeaconMockServer) registerApiRoutes(apiRouter *mux.Router) {
 
 // Admin routes
 func (s *BeaconMockServer) registerAdminRoutes(adminRouter *mux.Router) {
+	adminRouter.HandleFunc("/"+api.AddValidatorRoute, func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			s.addValidator(w, r)
+		default:
+			handleInvalidMethod(s.logger, w)
+		}
+	})
 	adminRouter.HandleFunc("/"+api.SetBalanceRoute, func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:

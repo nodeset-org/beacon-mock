@@ -1,11 +1,12 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"testing"
+
+	"github.com/goccy/go-json"
 
 	"github.com/nodeset-org/beacon-mock/api"
 	idb "github.com/nodeset-org/beacon-mock/internal/db"

@@ -1,13 +1,14 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/goccy/go-json"
 
 	"github.com/nodeset-org/beacon-mock/api"
 	"github.com/rocket-pool/node-manager-core/beacon/client"

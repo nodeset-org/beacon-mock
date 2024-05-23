@@ -153,7 +153,7 @@ func TestValidatorsByIndex_Post(t *testing.T) {
 		strconv.FormatUint(uint64(id0), 10),
 		v2.Pubkey.HexWithPrefix(),
 	}
-	parsedResponse := getValidatorsResponse(t, ids)
+	parsedResponse := getValidatorsResponsePost(t, ids)
 
 	// Make sure the response is correct
 	require.Len(t, parsedResponse.Data, 2)

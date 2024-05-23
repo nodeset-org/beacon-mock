@@ -7,28 +7,13 @@ import (
 )
 
 const (
-	DefaultChainID uint64 = 0x90de5e7
+	DefaultChainID                      uint64 = 0x90de5e7
+	DefaultDepositContractAddressString string = "0xde905175eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
 )
 
 var (
 	// Default config
-	defaultConfig *Config = &Config{
-		ChainID:                      DefaultChainID,
-		SecondsPerSlot:               12,
-		SlotsPerEpoch:                32,
-		EpochsPerSyncCommitteePeriod: 256,
-		GenesisTime:                  time.Now(),
-		GenesisForkVersion:           []byte{0x00},
-		GenesisValidatorsRoot:        []byte{0x00},
-		AltairForkVersion:            common.FromHex("0x90de5e700"),
-		AltairForkEpoch:              0,
-		BellatrixForkVersion:         common.FromHex("0x90de5e701"),
-		BellatrixForkEpoch:           0,
-		CapellaForkVersion:           common.FromHex("0x90de5e702"),
-		CapellaForkEpoch:             0,
-		DenebForkVersion:             common.FromHex("0x90de5e703"),
-		DenebForkEpoch:               0,
-	}
+	DefaultDepositContractAddress common.Address = common.HexToAddress(DefaultDepositContractAddressString)
 )
 
 // Basic Beacon Chain configuration
@@ -62,16 +47,27 @@ type Config struct {
 	DenebForkEpoch   uint64
 }
 
-// Creates a new config instance
-func NewConfig(depositContract common.Address, useDefaults bool) *Config {
-	config := &Config{}
-	if !useDefaults {
-		return config
+// Creates a new default config instance
+func NewDefaultConfig() *Config {
+	defaultConfig := &Config{
+		ChainID:                      DefaultChainID,
+		DepositContract:              DefaultDepositContractAddress,
+		SecondsPerSlot:               12,
+		SlotsPerEpoch:                32,
+		EpochsPerSyncCommitteePeriod: 256,
+		GenesisTime:                  time.Now(),
+		GenesisForkVersion:           []byte{0x00},
+		GenesisValidatorsRoot:        []byte{0x00},
+		AltairForkVersion:            common.FromHex("0x90de5e700"),
+		AltairForkEpoch:              0,
+		BellatrixForkVersion:         common.FromHex("0x90de5e701"),
+		BellatrixForkEpoch:           0,
+		CapellaForkVersion:           common.FromHex("0x90de5e702"),
+		CapellaForkEpoch:             0,
+		DenebForkVersion:             common.FromHex("0x90de5e703"),
+		DenebForkEpoch:               0,
 	}
-
-	config = defaultConfig.Clone()
-	config.DepositContract = depositContract
-	return config
+	return defaultConfig
 }
 
 // Clones a config into a new instance

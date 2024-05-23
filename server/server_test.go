@@ -8,7 +8,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/nodeset-org/beacon-mock/db"
 	"github.com/stretchr/testify/require"
 )
@@ -28,8 +27,7 @@ var (
 // Initialize a common server used by all tests
 func TestMain(m *testing.M) {
 	// Create the config
-	depositContract := common.HexToAddress(DepositContractAddressString)
-	config := db.NewConfig(depositContract, true)
+	config := db.NewDefaultConfig()
 
 	// Create the server
 	var err error

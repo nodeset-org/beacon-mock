@@ -7,7 +7,8 @@ require (
 	github.com/goccy/go-json v0.10.2
 	github.com/gorilla/mux v1.8.1
 	github.com/rocket-pool/node-manager-core v0.3.1-0.20240523031437-fea797b95b9c
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
+	github.com/urfave/cli/v2 v2.27.1
 )
 
 require (
@@ -18,6 +19,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/consensys/bavard v0.1.13 // indirect
 	github.com/consensys/gnark-crypto v0.12.1 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
 	github.com/crate-crypto/go-kzg-4844 v1.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set/v2 v2.6.0 // indirect
@@ -51,10 +53,13 @@ require (
 	github.com/prysmaticlabs/go-bitfield v0.0.0-20210809151128-385d8c5e3fb7 // indirect
 	github.com/prysmaticlabs/gohashtree v0.0.4-beta // indirect
 	github.com/prysmaticlabs/prysm/v5 v5.0.3 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
+	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sethvargo/go-password v0.2.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/supranational/blst v0.3.11 // indirect
+	github.com/syndtr/goleveldb v1.0.1-0.20220721030215-126854af5e6d // indirect
 	github.com/thomaso-mirodin/intmath v0.0.0-20160323211736-5dc6d854e46e // indirect
 	github.com/tklauser/go-sysconf v0.3.13 // indirect
 	github.com/tklauser/numcpus v0.7.0 // indirect
@@ -63,6 +68,7 @@ require (
 	github.com/wealdtech/go-eth2-types/v2 v2.8.2 // indirect
 	github.com/wealdtech/go-eth2-util v1.8.2 // indirect
 	github.com/wealdtech/go-eth2-wallet-encryptor-keystorev4 v1.4.1 // indirect
+	github.com/xrash/smetrics v0.0.0-20240312152122-5f08fbb34913 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/mod v0.17.0 // indirect

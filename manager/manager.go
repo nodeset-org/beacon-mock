@@ -31,11 +31,6 @@ func NewBeaconMockManager(logger *slog.Logger, config *db.Config) *BeaconMockMan
 	}
 }
 
-// Create a new beacon mock manager instance using the default config
-func NewBeaconMockManagerWithDefaultConfig(logger *slog.Logger, depositContract common.Address) *BeaconMockManager {
-	return NewBeaconMockManager(logger, db.NewConfig(depositContract, true))
-}
-
 // Set the database for the manager directly if you need to custom provision it
 func (m *BeaconMockManager) SetDatabase(db *db.Database) {
 	m.database = db

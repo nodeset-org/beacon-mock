@@ -3,14 +3,11 @@ package db
 import (
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/nodeset-org/beacon-mock/internal/test"
 	"github.com/stretchr/testify/require"
 )
 
 func TestConfigClone(t *testing.T) {
-	depositContract := common.HexToAddress(test.DepositContractAddressString)
-	c := NewConfig(depositContract, true)
+	c := NewDefaultConfig()
 	clone := c.Clone()
 	t.Log("Created config and clone")
 

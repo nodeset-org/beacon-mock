@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// Make sure sync status requests work
-func TestSyncStatus(t *testing.T) {
+// Make sure sync status requests work when synced
+func TestSynced(t *testing.T) {
 	currentSlot := uint64(12)
 
 	// Take a snapshot
@@ -31,6 +31,47 @@ func TestSyncStatus(t *testing.T) {
 	server.manager.SetDatabase(d)
 	server.manager.SetCurrentSlot(currentSlot)
 
+	// Send a sync status request
+	parsedResponse := getSyncStatusResponse(t)
+
+	// Make sure the response is correct
+	require.Equal(t, currentSlot, uint64(parsedResponse.Data.HeadSlot))
+	require.Equal(t, uint64(0), uint64(parsedResponse.Data.SyncDistance))
+	require.False(t, parsedResponse.Data.IsSyncing)
+	t.Logf("Received correct response - head slot: %d, sync distance: %d, is syncing: %t", parsedResponse.Data.HeadSlot, parsedResponse.Data.SyncDistance, parsedResponse.Data.IsSyncing)
+}
+
+// Make sure sync status requests work when still syncing
+func TestUnsynced(t *testing.T) {
+	currentSlot := uint64(8)
+	headSlot := uint64(12)
+
+	// Take a snapshot
+	server.manager.TakeSnapshot("test")
+	defer func() {
+		err := server.manager.RevertToSnapshot("test")
+		if err != nil {
+			t.Fatalf("error reverting to snapshot: %v", err)
+		}
+	}()
+
+	// Provision the database
+	d := idb.ProvisionDatabaseForTesting(t, logger)
+	server.manager.SetDatabase(d)
+	server.manager.SetCurrentSlot(headSlot)
+	server.manager.SetCurrentSlot(currentSlot)
+
+	// Send a sync status request
+	parsedResponse := getSyncStatusResponse(t)
+
+	// Make sure the response is correct
+	require.Equal(t, headSlot, uint64(parsedResponse.Data.HeadSlot))
+	require.Equal(t, headSlot-currentSlot, uint64(parsedResponse.Data.SyncDistance))
+	require.True(t, parsedResponse.Data.IsSyncing)
+	t.Logf("Received correct response - head slot: %d, sync distance: %d, is syncing: %t", parsedResponse.Data.HeadSlot, parsedResponse.Data.SyncDistance, parsedResponse.Data.IsSyncing)
+}
+
+func getSyncStatusResponse(t *testing.T) client.SyncStatusResponse {
 	// Create the request
 	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("http://localhost:%d/eth/%s", port, api.SyncingRoute), nil)
 	if err != nil {
@@ -61,9 +102,6 @@ func TestSyncStatus(t *testing.T) {
 		t.Fatalf("error deserializing response: %v", err)
 	}
 
-	// Make sure the response is correct
-	require.Equal(t, currentSlot, uint64(parsedResponse.Data.HeadSlot))
-	require.Equal(t, uint64(0), uint64(parsedResponse.Data.SyncDistance))
-	require.False(t, parsedResponse.Data.IsSyncing)
-	t.Logf("Received correct response - head slot: %d, sync distance: %d, is syncing: %t", parsedResponse.Data.HeadSlot, parsedResponse.Data.SyncDistance, parsedResponse.Data.IsSyncing)
+	t.Log("Parsed response")
+	return parsedResponse
 }

@@ -6,7 +6,7 @@ require (
 	github.com/ethereum/go-ethereum v1.14.3
 	github.com/goccy/go-json v0.10.2
 	github.com/gorilla/mux v1.8.1
-	github.com/rocket-pool/node-manager-core v0.3.1-0.20240522174819-feb0ab2cc75f
+	github.com/rocket-pool/node-manager-core v0.3.1-0.20240523031437-fea797b95b9c
 	github.com/stretchr/testify v1.8.4
 )
 

@@ -5,9 +5,11 @@ const (
 	ValidatorID string = "validator_id"
 
 	// Beacon API routes
-	ValidatorsRoute string = "v1/beacon/states/{" + StateID + "}/validators"
-	ValidatorRoute  string = "v1/beacon/states/{" + StateID + "}/validators/{" + ValidatorID + "}"
-	SyncingRoute    string = "v1/node/syncing"
+	ValidatorsRouteTemplate string = "v1/beacon/states/%s/validators"
+	ValidatorsRoute         string = "v1/beacon/states/{state_id}/validators"
+	ValidatorRouteTemplate  string = "v1/beacon/states/%s/validators/%s"
+	ValidatorRoute          string = "v1/beacon/states/{state_id}/validators/{validator_id}"
+	SyncingRoute            string = "v1/node/syncing"
 
 	// Admin routes
 	AddValidatorRoute string = "add-validator"

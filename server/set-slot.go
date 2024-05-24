@@ -24,5 +24,5 @@ func (s *BeaconMockServer) setSlot(w http.ResponseWriter, r *http.Request) {
 
 	// Set the slot
 	s.manager.SetCurrentSlot(slot)
-	handleSuccess(w, s.logger, nil)
+	handleSuccess(s.logger, w, nil)
 }

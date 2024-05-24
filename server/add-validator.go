@@ -43,5 +43,5 @@ func (s *BeaconMockServer) addValidator(w http.ResponseWriter, r *http.Request) 
 	response := api.AddValidatorResponse{
 		Index: validator.Index,
 	}
-	handleSuccess(w, s.logger, response)
+	handleSuccess(s.logger, w, response)
 }

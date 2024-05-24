@@ -2,9 +2,11 @@ package db
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/rocket-pool/node-manager-core/beacon"
+	"github.com/rocket-pool/node-manager-core/beacon/client"
 )
 
 type Validator struct {
@@ -61,6 +63,23 @@ func (v *Validator) Slash(penaltyGwei uint64) error {
 	v.SetBalance(v.Balance - penaltyGwei)
 	v.Status = beacon.ValidatorState_ActiveSlashed
 	return nil
+}
+
+func (v *Validator) GetValidatorMeta() client.Validator {
+	validatorMeta := client.Validator{
+		Index:   strconv.FormatUint(v.Index, 10),
+		Balance: client.Uinteger(v.Balance),
+		Status:  string(v.Status),
+	}
+	validatorMeta.Validator.Pubkey = v.Pubkey[:]
+	validatorMeta.Validator.WithdrawalCredentials = v.WithdrawalCredentials[:]
+	validatorMeta.Validator.EffectiveBalance = client.Uinteger(v.EffectiveBalance)
+	validatorMeta.Validator.Slashed = v.Slashed
+	validatorMeta.Validator.ActivationEligibilityEpoch = client.Uinteger(v.ActivationEligibilityEpoch)
+	validatorMeta.Validator.ActivationEpoch = client.Uinteger(v.ActivationEpoch)
+	validatorMeta.Validator.ExitEpoch = client.Uinteger(v.ExitEpoch)
+	validatorMeta.Validator.WithdrawableEpoch = client.Uinteger(v.WithdrawableEpoch)
+	return validatorMeta
 }
 
 func (v *Validator) Clone() *Validator {

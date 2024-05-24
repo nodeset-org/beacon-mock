@@ -40,5 +40,5 @@ func (s *BeaconMockServer) slash(w http.ResponseWriter, r *http.Request) {
 		handleInputError(s.logger, w, err)
 		return
 	}
-	handleSuccess(w, s.logger, nil)
+	handleSuccess(s.logger, w, nil)
 }

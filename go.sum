@@ -221,8 +221,8 @@ github.com/prysmaticlabs/prysm/v5 v5.0.3 h1:hUi0gu6v7aXmMQkl2GbrLoWcMhDNIbkVxRwr
 github.com/prysmaticlabs/prysm/v5 v5.0.3/go.mod h1:v5Oz4A4cWljfxUmW7SDk/VBzoYnei+lzwJogvSqUZVs=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
-github.com/rocket-pool/node-manager-core v0.3.1-0.20240523031437-fea797b95b9c h1:zev2m0KaBVASAmBAZtGL8pI/VNM8T5N71HUVHYBduuw=
-github.com/rocket-pool/node-manager-core v0.3.1-0.20240523031437-fea797b95b9c/go.mod h1:Clii5aca9PvR4HoAlUs8dh2OsJbDDnJ4yL5EaQE1gSo=
+github.com/rocket-pool/node-manager-core v0.3.1-0.20240524015353-c3f79505f02b h1:8d2D89BshSqCqF+fiuQSHtPvG0LKxLfu/CfDzVcW5ds=
+github.com/rocket-pool/node-manager-core v0.3.1-0.20240524015353-c3f79505f02b/go.mod h1:Clii5aca9PvR4HoAlUs8dh2OsJbDDnJ4yL5EaQE1gSo=
 github.com/rogpeppe/go-internal v1.11.0 h1:cWPaGQEPrBb5/AsnsZesgZZ9yb1OQ+GOISoDNXVBh4M=
 github.com/rogpeppe/go-internal v1.11.0/go.mod h1:ddIwULY96R17DhadqLgMfk9H9tvdUzkipdSkR5nkCZA=
 github.com/rs/cors v1.7.0 h1:+88SsELBHx5r+hZ8TCkggzSstaWNbDvThkVK8H6f9ik=

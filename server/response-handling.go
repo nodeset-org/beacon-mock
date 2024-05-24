@@ -12,7 +12,7 @@ import (
 
 // Handle routes called with an invalid method
 func handleInvalidMethod(logger *slog.Logger, w http.ResponseWriter) {
-	writeResponse(w, logger, http.StatusMethodNotAllowed, []byte{})
+	writeResponse(logger, w, http.StatusMethodNotAllowed, []byte{})
 }
 
 // Handles an error related to parsing the input parameters of a request
@@ -20,36 +20,36 @@ func handleInputError(logger *slog.Logger, w http.ResponseWriter, err error) {
 	msg := err.Error()
 	code := http.StatusBadRequest
 	bytes := formatError(code, msg)
-	writeResponse(w, logger, code, bytes)
+	writeResponse(logger, w, code, bytes)
 }
 
 // Write an error if the auth header couldn't be decoded
-func handleServerError(w http.ResponseWriter, logger *slog.Logger, err error) {
+func handleServerError(logger *slog.Logger, w http.ResponseWriter, err error) {
 	msg := err.Error()
 	code := http.StatusInternalServerError
 	bytes := formatError(code, msg)
-	writeResponse(w, logger, code, bytes)
+	writeResponse(logger, w, code, bytes)
 }
 
 // The request completed successfully
-func handleSuccess(w http.ResponseWriter, logger *slog.Logger, message any) {
+func handleSuccess(logger *slog.Logger, w http.ResponseWriter, message any) {
 	bytes := []byte{}
 	if message != nil {
 		// Serialize the response
 		var err error
 		bytes, err = json.Marshal(message)
 		if err != nil {
-			handleServerError(w, logger, fmt.Errorf("error serializing response: %w", err))
+			handleServerError(logger, w, fmt.Errorf("error serializing response: %w", err))
 		}
 	}
 
 	// Write it
 	logger.Debug("Response body", slog.String(log.BodyKey, string(bytes)))
-	writeResponse(w, logger, http.StatusOK, bytes)
+	writeResponse(logger, w, http.StatusOK, bytes)
 }
 
 // Writes a response to an HTTP request back to the client and logs it
-func writeResponse(w http.ResponseWriter, logger *slog.Logger, statusCode int, message []byte) {
+func writeResponse(logger *slog.Logger, w http.ResponseWriter, statusCode int, message []byte) {
 	// Prep the log attributes
 	codeMsg := fmt.Sprintf("%d %s", statusCode, http.StatusText(statusCode))
 	attrs := []any{

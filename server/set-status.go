@@ -38,5 +38,5 @@ func (s *BeaconMockServer) setStatus(w http.ResponseWriter, r *http.Request) {
 
 	// Set the status
 	validator.SetStatus(status)
-	handleSuccess(w, s.logger, nil)
+	handleSuccess(s.logger, w, nil)
 }

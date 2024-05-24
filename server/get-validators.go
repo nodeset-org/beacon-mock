@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log/slog"
@@ -9,9 +10,9 @@ import (
 	"strings"
 
 	"github.com/goccy/go-json"
+	"github.com/gorilla/mux"
 
 	"github.com/nodeset-org/beacon-mock/api"
-	"github.com/rocket-pool/node-manager-core/beacon/client"
 	"github.com/rocket-pool/node-manager-core/log"
 )
 
@@ -19,6 +20,16 @@ import (
 func (s *BeaconMockServer) getValidators(w http.ResponseWriter, r *http.Request) {
 	// Get the request vars
 	args := s.processApiRequest(w, r, nil)
+	vars := mux.Vars(r)
+	state, exists := vars[api.StateID]
+	if !exists {
+		handleInputError(s.logger, w, fmt.Errorf("missing state ID"))
+		return
+	}
+	if state != "head" {
+		handleInputError(s.logger, w, fmt.Errorf("unsupported state ID [%s], only 'head' is supported", state))
+		return
+	}
 
 	var ids []string
 	switch r.Method {
@@ -34,22 +45,13 @@ func (s *BeaconMockServer) getValidators(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// Get the validators
-	validators, err := s.manager.GetValidators(ids)
+	// Get the response
+	response, err := s.manager.Beacon_Validators(context.Background(), state, ids)
 	if err != nil {
 		handleInputError(s.logger, w, err)
 		return
 	}
-
-	// Write the response
-	validatorMetas := make([]client.Validator, len(validators))
-	for i, validator := range validators {
-		validatorMetas[i] = getValidatorMetaFromValidator(validator)
-	}
-	response := client.ValidatorsResponse{
-		Data: validatorMetas,
-	}
-	handleSuccess(w, s.logger, response)
+	handleSuccess(s.logger, w, response)
 }
 
 // Get all of the validator IDs from the request query for a GET request

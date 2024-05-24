@@ -38,7 +38,7 @@ func (s *BeaconMockServer) getValidator(w http.ResponseWriter, r *http.Request) 
 
 	// Write the response
 	response := api.ValidatorResponse{
-		Data: getValidatorMetaFromValidator(validator),
+		Data: validator.GetValidatorMeta(),
 	}
-	handleSuccess(w, s.logger, response)
+	handleSuccess(s.logger, w, response)
 }

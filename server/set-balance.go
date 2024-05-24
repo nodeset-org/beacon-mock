@@ -36,5 +36,5 @@ func (s *BeaconMockServer) setBalance(w http.ResponseWriter, r *http.Request) {
 
 	// Set the balance
 	validator.SetBalance(balance)
-	handleSuccess(w, s.logger, nil)
+	handleSuccess(s.logger, w, nil)
 }

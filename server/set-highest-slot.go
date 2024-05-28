@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func (s *BeaconMockServer) setSlot(w http.ResponseWriter, r *http.Request) {
+func (s *BeaconMockServer) setHighestSlot(w http.ResponseWriter, r *http.Request) {
 	// Get the request vars
 	args := s.processApiRequest(w, r, nil)
 	slotString, exists := args["slot"]
@@ -23,6 +23,6 @@ func (s *BeaconMockServer) setSlot(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set the slot
-	s.manager.SetCurrentSlot(slot)
+	s.manager.SetHighestSlot(slot)
 	handleSuccess(s.logger, w, nil)
 }

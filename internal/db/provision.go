@@ -31,7 +31,7 @@ func ProvisionDatabaseForTesting(t *testing.T, logger *slog.Logger) *db.Database
 	t.Log("Prepped pubkeys and creds")
 
 	// Create a new database
-	d := db.NewDatabase(logger)
+	d := db.NewDatabase(logger, 0)
 	v0, err := d.AddValidator(pubkey0, withdrawalCreds)
 	if err != nil {
 		t.Fatalf("Error adding validator [%s]: %v", pubkey0.HexWithPrefix(), err)

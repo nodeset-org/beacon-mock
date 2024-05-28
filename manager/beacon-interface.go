@@ -25,6 +25,13 @@ func (m *BeaconMockManager) Beacon_Validators(ctx context.Context, stateId strin
 	return response, nil
 }
 
+func (m *BeaconMockManager) Config_DepositContract(ctx context.Context) (client.Eth2DepositContractResponse, error) {
+	response := client.Eth2DepositContractResponse{}
+	response.Data.Address = m.config.DepositContract
+	response.Data.ChainID = client.Uinteger(m.config.ChainID)
+	return response, nil
+}
+
 func (m *BeaconMockManager) Node_Syncing(ctx context.Context) (client.SyncStatusResponse, error) {
 	// Get the slots
 	currentSlot := m.GetCurrentSlot()
@@ -72,10 +79,6 @@ func (m *BeaconMockManager) Beacon_Header(ctx context.Context, blockId string) (
 
 func (m *BeaconMockManager) Beacon_VoluntaryExits_Post(ctx context.Context, request client.VoluntaryExitRequest) error {
 	return fmt.Errorf("not implemented")
-}
-
-func (m *BeaconMockManager) Config_DepositContract(ctx context.Context) (client.Eth2DepositContractResponse, error) {
-	return client.Eth2DepositContractResponse{}, fmt.Errorf("not implemented")
 }
 
 func (m *BeaconMockManager) Config_Spec(ctx context.Context) (client.Eth2ConfigResponse, error) {

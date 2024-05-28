@@ -18,6 +18,10 @@ var (
 
 // Basic Beacon Chain configuration
 type Config struct {
+	// ==============================
+	// === Mock-specific settings ===
+	// ==============================
+
 	// Basic settings
 	ChainID                      uint64
 	SecondsPerSlot               uint64
@@ -45,6 +49,13 @@ type Config struct {
 	// Deneb info
 	DenebForkVersion []byte
 	DenebForkEpoch   uint64
+
+	// ==============================
+	// === Mock-specific settings ===
+	// ==============================
+
+	// The index of the first execution layer block to be linked to in a Beacon chain slot
+	FirstExecutionBlockIndex uint64
 }
 
 // Creates a new default config instance

@@ -24,7 +24,7 @@ type BeaconMockManager struct {
 // Create a new beacon mock manager instance
 func NewBeaconMockManager(logger *slog.Logger, config *db.Config) *BeaconMockManager {
 	return &BeaconMockManager{
-		database:  db.NewDatabase(logger),
+		database:  db.NewDatabase(logger, config.FirstExecutionBlockIndex),
 		config:    config,
 		snapshots: map[string]*db.Database{},
 		logger:    logger,
@@ -58,9 +58,11 @@ func (m *BeaconMockManager) GetConfig() *db.Config {
 	return m.config
 }
 
-// Increments the Beacon chain slot - use this to have parity with mining a new block on the EL
-func (m *BeaconMockManager) IncrementSlot() {
-	m.database.SetCurrentSlot(m.database.GetCurrentSlot() + 1)
+// Increments the Beacon chain slot, committing a new "block" to the chain
+// Set slotValidated to true to "propose a block" for the current slot, linking it to the next Execution block's index.
+// Set it to false to "miss" the slot, so there was not block proposed for it.
+func (m *BeaconMockManager) CommitBlock(slotValidated bool) {
+	m.database.CommitBlock(slotValidated)
 }
 
 // Returns the current Beacon chain slot
@@ -73,9 +75,9 @@ func (m *BeaconMockManager) GetHighestSlot() uint64 {
 	return m.database.GetHighestSlot()
 }
 
-// Sets the current Beacon chain slot
-func (m *BeaconMockManager) SetCurrentSlot(slot uint64) {
-	m.database.SetCurrentSlot(slot)
+// Sets the highest slot on the chain - useful for simulating syncing conditions
+func (m *BeaconMockManager) SetHighestSlot(slot uint64) {
+	m.database.SetHighestSlot(slot)
 }
 
 // Add a validator to the Beacon chain

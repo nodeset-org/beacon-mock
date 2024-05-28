@@ -11,10 +11,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// Test setting the current slot
-func TestSetSlot(t *testing.T) {
+// Test setting the highest slot
+func TestSetHighestSlot(t *testing.T) {
 	headSlot := uint64(14)
-	currentSlot := uint64(9)
 
 	// Take a snapshot
 	server.manager.TakeSnapshot("test")
@@ -30,24 +29,21 @@ func TestSetSlot(t *testing.T) {
 	server.manager.SetDatabase(d)
 
 	// Send the head slot request
-	sendSetSlotRequest(t, headSlot)
-
-	// Send the current slot request
-	sendSetSlotRequest(t, currentSlot)
+	sendSetHighestSlotRequest(t, headSlot)
 
 	// Get the sync status now
 	parsedResponse := getSyncStatusResponse(t)
 
 	// Make sure the response is correct
 	require.Equal(t, headSlot, uint64(parsedResponse.Data.HeadSlot))
-	require.Equal(t, (headSlot - currentSlot), uint64(parsedResponse.Data.SyncDistance))
+	require.Equal(t, headSlot, uint64(parsedResponse.Data.SyncDistance))
 	require.True(t, parsedResponse.Data.IsSyncing)
 	t.Logf("Received correct response - head slot: %d, sync distance: %d, is syncing: %t", parsedResponse.Data.HeadSlot, parsedResponse.Data.SyncDistance, parsedResponse.Data.IsSyncing)
 }
 
-func sendSetSlotRequest(t *testing.T, slot uint64) {
+func sendSetHighestSlotRequest(t *testing.T, slot uint64) {
 	// Create the request
-	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("http://localhost:%d/admin/%s", port, api.SetSlotRoute), nil)
+	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("http://localhost:%d/admin/%s", port, api.SetHighestSlotRoute), nil)
 	if err != nil {
 		t.Fatalf("error creating request: %v", err)
 	}

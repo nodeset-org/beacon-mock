@@ -12,9 +12,10 @@ const (
 	SyncingRoute            string = "v1/node/syncing"
 
 	// Admin routes
-	AddValidatorRoute string = "add-validator"
-	SetBalanceRoute   string = "set-balance"
-	SetStatusRoute    string = "set-status"
-	SetSlotRoute      string = "set-slot"
-	SlashRoute        string = "slash"
+	AddValidatorRoute   string = "add-validator"
+	CommitBlockRoute    string = "commit-block"
+	SetBalanceRoute     string = "set-balance"
+	SetStatusRoute      string = "set-status"
+	SetHighestSlotRoute string = "set-highest-slot"
+	SlashRoute          string = "slash"
 )

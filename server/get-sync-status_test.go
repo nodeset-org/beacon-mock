@@ -30,7 +30,9 @@ func TestSynced(t *testing.T) {
 	// Provision the database
 	d := idb.ProvisionDatabaseForTesting(t, logger)
 	server.manager.SetDatabase(d)
-	server.manager.SetCurrentSlot(currentSlot)
+	for i := uint64(0); i < currentSlot; i++ {
+		server.manager.CommitBlock(true)
+	}
 
 	// Send a sync status request
 	parsedResponse := getSyncStatusResponse(t)
@@ -59,8 +61,10 @@ func TestUnsynced(t *testing.T) {
 	// Provision the database
 	d := idb.ProvisionDatabaseForTesting(t, logger)
 	server.manager.SetDatabase(d)
-	server.manager.SetCurrentSlot(headSlot)
-	server.manager.SetCurrentSlot(currentSlot)
+	server.manager.SetHighestSlot(headSlot)
+	for i := uint64(0); i < currentSlot; i++ {
+		server.manager.CommitBlock(true)
+	}
 
 	// Send a sync status request
 	parsedResponse := getSyncStatusResponse(t)
